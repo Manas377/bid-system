@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    {% for bid in object_list %}
+        {{ bid }} 
+        <hr>
+    {% endfor %}
+    
+{% endblock content%}

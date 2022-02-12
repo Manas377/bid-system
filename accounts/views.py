@@ -1,0 +1,32 @@
+from accounts.models import User
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse
+
+# from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
+
+from django.views.generic import View
+# Create your views here.
+import time
+from datetime import date, datetime, timedelta
+
+# from lead.forms import LeadFilterForm
+
+
+from django.db.models import Avg
+
+
+def login(request):
+    form = UserCreationForm()
+    return render(request, 'accounts/login.html', {'form': form})
+
+def register(request):
+    pass
