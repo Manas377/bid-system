@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="content-section">
-    <h2>You have been logged out.</h2>
-    <div class="border-top pt-3">
-        <small class="text-muted">
-            continue to log in again? <a class="" href="{% url 'accounts:login' %}">Log in</a>
-        </small>
+
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="content-section">
+        <h2>You have successfully logged out.</h2>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                continue to log in again? <a class="" href="{% url 'accounts:login' %}">Log in</a>
+            </small>
+        </div>
     </div>
-</div>
+  </div>
 
 {% endblock %}

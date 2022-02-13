@@ -18,6 +18,8 @@ from django.views.generic import View
 import time
 from datetime import date, datetime, timedelta
 
+from .forms import UserRegisterForm
+
 # from lead.forms import LeadFilterForm
 
 
@@ -29,4 +31,13 @@ def login(request):
     return render(request, 'accounts/login.html', {'form': form})
 
 def register(request):
-    pass
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Hi you are now a member. Please Login with your Credentials.')
+            return redirect('accounts:login')
+    else:
+        form = UserRegisterForm
+    return render(request, 'accounts/register.html', {'form': form})

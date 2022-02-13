@@ -1,5 +1,40 @@
 
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+
+
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="content-section">
+        <!-- <h2>Add Item</h2> -->
+        <!-- <form method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" value="Save">
+        </form>
+         -->
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Add Item</legend>
+                {{ form|crispy }}
+            </fieldset>
+    
+            <div class="form-group">
+                <button class="btn btn-outline-info mt-3" type="submit">add</button>
+            </div>
+            <!-- <div class="border-top pt-3">
+                <small class="text-muted">
+                    don't have an account? <a class="" href="{% url 'accounts:register' %}">sign up</a>
+                </small>
+            </div> -->
+        </form>
+
+
+    </div>
+  </div>
+
+
+{% endblock %}

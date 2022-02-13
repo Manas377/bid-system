@@ -2,6 +2,7 @@ from pyexpat import model
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 
 from bidding.forms import BidCompareForm, BidForm
 from .models import Item, Bid
@@ -22,7 +23,27 @@ class ItemDetailView(DetailView):
 
         context['form'] = BidForm()
 
-        context['prev_bids'] = Bid.objects.filter(item=context['object'], buyer=self.request.user)
+        if self.request.user.is_authenticated:
+            context['prev_bids'] = Bid.objects.filter(item=context['object'], buyer=self.request.user)
+
+        labels = []
+        data = []
+
+        # queryset = Bid.objects.order_by('-price')[:10] # List top 10 bids
+        queryset = context['object'].bid_set.all().order_by('-price')
+        print(queryset)
+        labels = list(queryset.values_list('price', flat=True).distinct())
+        print(labels)
+
+        for label in labels:
+            # labels.append(bid.price)
+            data.append(queryset.filter(price=label).count())
+
+        print(data)
+        
+        context['labels'] = labels
+        context['data'] = data
+
 
         return context
 
@@ -54,6 +75,12 @@ class BidDetailView(DetailView):
 class ItemCreateView(CreateView):
     model = Item
     fields = ['name', 'min_price']
+
+    def form_valid(self, form):
+        form.instance.seller = self.request.user
+        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse_lazy('bidding:item-list')
 
 
 def bid_compare(request):
