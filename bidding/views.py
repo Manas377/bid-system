@@ -1,5 +1,6 @@
 from pyexpat import model
-from django.views.generic import ListView, DetailView
+from django.contrib import messages
+from django.views.generic import ListView, DetailView, CreateView
 from django.shortcuts import redirect, render
 
 from bidding.forms import BidCompareForm, BidForm
@@ -31,6 +32,12 @@ class ItemDetailView(DetailView):
             ins = form.save(commit=False)
             ins.buyer = request.user
             ins.item_id = kwargs['pk']
+            
+            if ins.item.min_price > ins.price:
+
+                messages.warning(request, "Bid price cannot be less than Minium asking price")
+                return redirect(self.request.path_info)
+            
             ins.save()
   
         else:
@@ -43,6 +50,11 @@ class BidListView(ListView):
 
 class BidDetailView(DetailView):
     model = Bid
+
+class ItemCreateView(CreateView):
+    model = Item
+    fields = ['name', 'min_price']
+
 
 def bid_compare(request):
     if request.method == 'GET':
