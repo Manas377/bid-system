@@ -1,10 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
+
+<div class="mt-3">
+    <h1 class="display-3">Items List</h1>
+{% if object_list %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Item Name</th>
+        <th scope="col"> Minimum Price</th>
+        <th scope="col">Maximum Bid</th>
+    </tr>
+</thead>
+
     {%for item in object_list %}
-        {{ item }}
-        <hr>
+        
+        <tbody class="table-hover">
+            <tr>
+                <th scope="col">{{forloop.counter }}</th>
+                <th scope="col"><a href="{% url 'bidding:item-detail' pk=item.id %}">{{ item.name }}</a></th>
+                <th scope="col"> {{ item.min_price }}</th>
+                <th scope="col">{{ item.get_max_bid}}</th>
+            </tr>
+        </table>
     {% endfor %}
-    
+{% endif %}
+    <a class="btn btn-primary">Add New</a>
+</div>
 {% endblock content%}

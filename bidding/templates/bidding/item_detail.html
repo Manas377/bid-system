@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ object.name}}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+{{ form }}
+<button type="submit">Submit</button>
+</form>
+
+{% if prev_bids %}
+<h4>My Prev Bids</h4>
+
+{% for bid in prev_bids %}
+<p><b>{{ forloop.counter}}.</b> ₹{{ bid.price }}/-</p>
+{% endfor %}
+
+{% else %}
+<h4> No prev Bids Found </h4>
+{% endif %}
+
+
+{% endblock content %}

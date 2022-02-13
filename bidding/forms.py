@@ -1,4 +1,5 @@
-from django.forms import forms, ModelForm
+from django.forms import ModelForm
+from django import forms
 from .models import Bid, Item
 
 class BidForm(ModelForm):
@@ -9,7 +10,7 @@ class BidForm(ModelForm):
 class ItemForm(ModelForm):
     class Meta:
         model = Item
-        fields = ['name', 'price']
+        fields = ['name', 'min_price']
 
 class BidCompareForm(forms.Form):
     bid_price = forms.IntegerField()

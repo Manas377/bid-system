@@ -14,6 +14,14 @@ class Item(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def get_min_bid(self):
+        bid = Bid.objects.filter(item=self).aggregate(bid_min = Min('price'))
+        return bid['bid_min']
+
+    def get_max_bid(self):
+        bid = Bid.objects.filter(item=self).aggregate(bid_max = Max('price'))
+        return bid['bid_max']
+
 class Bid(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -30,4 +38,4 @@ class Bid(models.Model):
         return bid['bid_max']
 
     def __str__(self):
-        return f'{self.item.name} || Min-Bid: {self.get_min_bid()} | Max-Bid: {self.get_max_bid()} | {self.price}'
+        return f'{self.item.name} | {self.price}'
